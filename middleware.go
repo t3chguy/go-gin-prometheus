@@ -74,17 +74,17 @@ func (p *Prometheus) registerMetrics(subsystem string) {
 
 // Use adds the middleware to a gin engine.
 func (p *Prometheus) Use(e *gin.Engine) {
-	e.Use(p.handlerFunc())
+	e.Use(p.HandlerFunc())
 	e.GET(p.MetricsPath, prometheusHandler())
 }
 
 // UseWithAuth adds the middleware to a gin engine with BasicAuth.
 func (p *Prometheus) UseWithAuth(e *gin.Engine, accounts gin.Accounts) {
-	e.Use(p.handlerFunc())
+	e.Use(p.HandlerFunc())
 	e.GET(p.MetricsPath, gin.BasicAuth(accounts), prometheusHandler())
 }
 
-func (p *Prometheus) handlerFunc() gin.HandlerFunc {
+func (p *Prometheus) HandlerFunc() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.URL.String() == p.MetricsPath {
 			c.Next()
